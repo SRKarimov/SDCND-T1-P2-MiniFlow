@@ -5,23 +5,25 @@ Created on Tue Jun  6 14:03:37 2017
 @author: Sergei Karimov
 """
 
+
 class Node(object):
-    def __init__(self, inbound_nodes = []):
-        #Node(s) from which this Node receives values
+    def __init__(self, inbound_nodes=[]):
+        # Node(s) from which this Node receives values
         self.inbound_nodes = inbound_nodes
-        
-        #Node(s) to which this Node passes values
+
+        # Node(s) to which this Node passes values
         self.outbound_nodes = []
-        
-        #for each inbound Node here, add this Node as an outbound Node to _that_ Node
+
+        # for each inbound Node here, add this Node as an outbound Node to _that_ Node
         for n in self.outbound_nodes:
             n.outbound_nodes.append(self)
-            
+
         # A calculated value
         self.value = None
 
     def Forward(self):
-        raise NotImplemented
+        self.value = sum(self.inbound_nodes)
+
 
 class Input(Node):
     def __init__(self):
@@ -41,6 +43,7 @@ class Input(Node):
         # Overwrite the value if one is passed in.
         if value is not None:
             self.value = value
+
 
 class Add(Node):
     def __init__(self, x, y):
